@@ -1,3 +1,42 @@
-# Nuxt 3 Auth with express
+# Nuxt 3 Tailwind CSS Starter Kit
 
-The frontend design is copied from Vuex 4 &amp; Firebase Auth tutorial on the Net Ninja YouTube channel.
+A minimal Nuxt 3 (RC) and Tailwind CSS Boilerplate
+
+## Setup
+
+Make sure to install the dependencies:
+
+```bash
+# yarn
+yarn install
+
+# npm
+npm install
+
+# pnpm
+pnpm install --shamefully-hoist
+```
+
+## Development Server
+
+Start the development server on http://localhost:3000
+
+```bash
+npm run dev
+```
+
+## Production
+
+Build the application for production:
+
+```bash
+npm run build
+```
+
+Locally preview production build:
+
+```bash
+npm run preview
+```
+
+Checkout the [deployment documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.

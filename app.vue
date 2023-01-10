@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+  //useHead
+</script>
+
 <template>
     <div>
         <NuxtPage/>
