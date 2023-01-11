@@ -3,7 +3,7 @@
   let open = ref(true),name=ref(''),email=ref(''),password=ref(''),message=ref('')
   const show=(()=> open.value=!open.value)
   const data = (async ()=> {
-    const { data, error, loading } = useFetch('/api/auth/create', {
+    const { data, error, loading } = $fetch('/api/auth/create', {
       method: 'POST',
       body: JSON.stringify({
         name:name.value,
