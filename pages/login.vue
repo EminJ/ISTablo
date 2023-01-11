@@ -1,10 +1,26 @@
-<script lang="ts" setup>
+<script setup>
   import { ref } from "vue";
-  let open = ref(true)
+  let open = ref(true),name=ref(''),email=ref(''),password=ref(''),message=ref('')
   const show=(()=> open.value=!open.value)
-  //useHead({
-  //  script: [{ children: 'console.log(document.cookie);' }],
-  //});
+  const data = (async ()=> {
+    const { data, error, loading } = useFetch('/api/auth/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        name:name.value,
+        email:email.value,
+        password:password.value
+      }),
+    })
+    if(loading) {
+        message.value = '<p>Loading...</p>'
+      }
+    if (error) {
+        message.value = '<p>An error occurred: {error.message}</p>'
+      }
+    if (data){
+        message.value = data
+      }
+  })
 </script>
 <template>
   <div>
@@ -25,10 +41,10 @@
               <span class="mx-5">Hesabın Yok mu? <a @click="show" href="/" onclick="return false" class="text-orange-main font-bold">Kayıt Ol</a></span>
             </div>
             <div v-show="!open">
-              <input type="text" placeholder="Ad Soyad Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
-              <input type="text" placeholder="E-Posta Adresi Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
-              <input type="password" placeholder="Şifre Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2"/><br>
-              <input type="button" value="Kayıt Ol" class="w-32 py-2 px-3 bg-slate-600 rounded-sm transition-all hover:bg-gray-800 my-5">
+              <input type="text" v-model="name" placeholder="Ad Soyad Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
+              <input type="text" v-model="email" placeholder="E-Posta Adresi Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
+              <input type="password" v-model="password" placeholder="Şifre Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2"/><br>
+              <input type="button" @click="data" value="Kayıt Ol" class="w-32 py-2 px-3 bg-slate-600 rounded-sm transition-all hover:bg-gray-800 my-5">
               <span class="mx-5">Hesabın Var mı? <a @click="show" href="/" onclick="return false"  class="text-orange-main font-bold">Giriş Yap</a></span>
             </div>
             </div>

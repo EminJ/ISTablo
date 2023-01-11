@@ -8,4 +8,7 @@ export default defineNuxtConfig({
         postcssOptions: require("./postcss.config.js"),
       },
     },
+    serverMiddleware: [
+      { path: "/api", handler: "~/server/index.ts" },
+    ],
 })
