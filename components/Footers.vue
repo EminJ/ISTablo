@@ -1,5 +1,3 @@
-<script setup>
-</script>
 <template>
     <div class="w-full top-0 h-72 flex flex-col bg-gray-background text-white-main font-bold">
        <div class="w-auto flex m-auto">

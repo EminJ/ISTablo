@@ -1,6 +1,4 @@
 <script setup>
-import Navbar from "./Navbar.vue";
-import Footer from "./Footers.vue";
 let arr = ref(0);
 let primepics = ref([
   {
@@ -54,7 +52,6 @@ const change = () => {
 <template>
   <div>
     <div class="w-full h-screen bg-gray-background block text-white">
-      <Navbar />
       <div class="w-full h-full pt-32 flex flex-row flex-nowrap">
         <div v-if="primepics[arr - 1]" class="w-1/3 h-full text-white-main p-10">
           <h1 class="text-4xl font-bold my-7">

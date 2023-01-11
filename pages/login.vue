@@ -1,16 +1,14 @@
 <script lang="ts" setup>
-  import Navbar from "./Navbar.vue";
   import { ref } from "vue";
   let open = ref(true)
   const show=(()=> open.value=!open.value)
-  useHead({
-  script: [{ children: 'console.log(document.cookie);' }],
-  });
+  //useHead({
+  //  script: [{ children: 'console.log(document.cookie);' }],
+  //});
 </script>
 <template>
   <div>
     <div class="w-full h-screen bg-gray-background block text-white">
-      <Navbar/>
       <div class="w-full h-full pt-32 flex flex-row flex-nowrap">
         <div class="w-1/2 h-full flex justify-center items-start">
           <div class="w-4/5 h-full block mx-5 rounded-lg p-4 bg-gray-primary shadow-lg shadow-black">
