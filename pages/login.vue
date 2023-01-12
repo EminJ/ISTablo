@@ -1,5 +1,6 @@
 <script setup>
   import { ref } from "vue";
+  definePageMeta({middleware: ["auth"]})
   let open = ref(true),name=ref(''),email=ref(''),password=ref(''),mail=ref(''),pass=ref(''),message=ref('')
   const show=(()=> open.value=!open.value)
   const register = (async ()=> {

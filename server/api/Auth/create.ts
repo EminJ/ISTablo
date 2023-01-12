@@ -9,11 +9,6 @@ router.get('/log',async (req,res)=>{
 	res.send('ok')
 })
 
-router.get('/test',async (req,res)=>{
-	if(req.session.user) return res.status(200).send(message(req.session.user,200));
-	return res.status(400).send(message('no',400));
-})
-
 router.post('/',async (req,res)=>{
 	const {name,email,password}=req.body
 	if(!name || !email || !password){return res.status(400).send(message('Eksik Veri Girişi!',400))}
