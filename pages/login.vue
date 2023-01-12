@@ -1,9 +1,21 @@
 <script setup>
-import { ref } from "vue";
-  let open = ref(true),name=ref(''),email=ref(''),password=ref(''),message=ref('')
+  import { ref } from "vue";
+  let open = ref(true),name=ref(''),email=ref(''),password=ref(''),mail=ref(''),pass=ref(''),message=ref('')
   const show=(()=> open.value=!open.value)
-  const data = (async ()=> {
+  const register = (async ()=> {
     await fetch('/api/Auth/create', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{"name":"'+name.value+'","email":"'+email.value+'","password":"'+password.value+'"}'})
+    .then(async (data)=> {
+      const text = await data.text();
+      const obj = JSON.parse(text);
+      if(obj.status!=200) message.value=obj.message
+      else {
+        message.value=''
+      }
+    })
+    .catch((err)=> console.log(err))
+  })
+  const login = (async ()=> {
+    await fetch('/api/Auth/login', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{"email":"'+mail.value+'","password":"'+pass.value+'"}'})
     .then(async (data)=> {
       const text = await data.text();
       const obj = JSON.parse(text);
@@ -28,16 +40,16 @@ import { ref } from "vue";
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, quis quaerat amet ad saepe id earum? Quod, sint ducimus vero earum deleniti nesciunt aspernatur in enim fugiat, esse qui nam?
             </p>
             <div v-show="open">
-              <input type="text" placeholder="E-Posta Adresi Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
-              <input type="password" placeholder="Şifre Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2"/><br>
-              <input type="button" value="Giriş Yap" class="w-32 py-2 px-3 bg-slate-600 rounded-sm transition-all hover:bg-gray-800 my-5">
+              <input type="text" v-model="mail" placeholder="E-Posta Adresi Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
+              <input type="password" v-model="pass" placeholder="Şifre Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2"/><br>
+              <button @click="login" class="w-32 py-2 px-3 bg-slate-600 rounded-sm transition-all hover:bg-gray-800 my-5">Giriş Yap</button>
               <span class="mx-5">Hesabın Yok mu? <a @click="show" href="/" onclick="return false" class="text-orange-main font-bold">Kayıt Ol</a></span>
             </div>
             <div v-show="!open">
               <input type="text" v-model="name" placeholder="Ad Soyad Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
               <input type="text" v-model="email" placeholder="E-Posta Adresi Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
               <input type="password" v-model="password" placeholder="Şifre Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2"/><br>
-              <button @click="data" class="w-32 py-2 px-3 bg-slate-600 rounded-sm transition-all hover:bg-gray-800 my-5">Kayıt Ol</button>
+              <button @click="register" class="w-32 py-2 px-3 bg-slate-600 rounded-sm transition-all hover:bg-gray-800 my-5">Kayıt Ol</button>
               <span class="mx-5">Hesabın Var mı? <a @click="show" href="/" onclick="return false"  class="text-orange-main font-bold">Giriş Yap</a></span>
               </div>
             </div>
