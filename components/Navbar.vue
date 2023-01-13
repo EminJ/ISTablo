@@ -16,8 +16,8 @@ const toggleT = (() => {
 <template>
   <div>
     <div class="w-full h-32 flex flex-nowrap justify-between items-center px-12 bg-black-main fixed z-10">
-      <NuxtLink to="/">
-        <h1 class="font-black text-4xl font-sans text-white">IS<span class="text-orange-main text-3xl">Tablo</span></h1>
+      <NuxtLink to="/" class="text-orange-main hover:text-orange-400">
+        <h1 class="font-black text-4xl font-sans"><span class="text-white">IS</span><span class="text-3xl transition-all">Tablo</span></h1>
       </NuxtLink>
       <ul class="flex flex-row flex-nowrap text-white-main font-bold items-center">
         <li class="mx-2"><NuxtLink to="/" class="text-white-main hover:text-orange-main">Ana Sayfa</NuxtLink></li>

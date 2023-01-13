@@ -1,5 +1,5 @@
 <script setup>
-let arr = ref(0);
+let arr = ref(0),slideright=ref('');
 let primepics = ref([
   {
     resim:
@@ -44,9 +44,11 @@ let primepics = ref([
   },
 ]);
 const change = () => {
+  slideright.value='animate-slide-in z-0 transition-opacity w-98 h-full rounded-sm shadow-lg shadow-black bg-cover'
   if (primepics.value[arr.value + 1]) arr.value++;
   else arr.value = 0;
 };
+slideright.value='z-0 transition-opacity w-98 h-full rounded-sm shadow-lg shadow-black bg-cover'
 </script>
 
 <template>
@@ -61,7 +63,7 @@ const change = () => {
           <p class="text-3xl font-light mt-6 mb-7">
             {{ primepics[arr - 1].aciklama }}
           </p>
-          <p class="text-xl font-extralight italic">
+          <p class="text-xl font-light italic">
             “ {{ primepics[arr - 1].detay }} ”
           </p>
           <p class="my-16">
@@ -88,7 +90,7 @@ const change = () => {
             Daha Fazla Bilgi
           </button>
           <p class="m-2">Tablonun Özeti</p>
-          <p class="text-lg xl:text-xl font-extralight italic">
+          <p class="text-lg xl:text-xl font-light italic">
             “ {{ primepics[primepics.length - 1].detay }} ”
           </p>
           <p class="my-16">
@@ -103,23 +105,24 @@ const change = () => {
           </p>
         </div>
         <div class="w-8/12 h-full flex justify-end items-center">
-          <div class="w-full h-5/6 rounded-sm shadow-lg shadow-black flex justify-end items-center bg-cover" :style="{
+          <div class="w-full h-5/6 rounded-sm shadow-lg shadow-black flex justify-end items-center bg-cover"
+          :style="{
             background: `url(${primepics[arr].resim}) no-repeat`,
             backgroundSize: `cover`,
           }">
-            <div v-if="primepics[arr - 1]" ref="box"
-              class="z-0 transition-opacity w-98 h-full rounded-sm shadow-lg shadow-black bg-cover" :style="{
+            <div v-if="primepics[arr - 1]" ref="box" :class=slideright
+              :style="{
                 transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
                 background: `url(${primepics[arr - 1].resim})`,
                 backgroundSize: `cover`,
               }" @mousemove="handleMouseMove">
               <div class="w-full h-full flex justify-end items-end flex-col p-8">
                 <button class="text-5xl font-extrabold hover:text-white-main" @click="change">
-                  &raquo;
+                  <i class="bx bx-right-arrow-alt text-4xl"></i>
                 </button>
               </div>
             </div>
-            <div v-else ref="box" class="z-0 transition-opacity w-98 h-full rounded-sm shadow-lg shadow-black bg-cover"
+            <div v-else ref="box" :class=slideright
               :style="{
                 transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
                 background: `url(${primepics[primepics.length - 1].resim})`,
@@ -127,7 +130,7 @@ const change = () => {
               }" @mousemove="handleMouseMove">
               <div class="w-full h-full flex justify-end items-end flex-col p-8">
                 <button class="text-5xl font-extrabold hover:text-white-main" @click="change">
-                  &raquo;
+                  <i class="bx bx-right-arrow-alt text-4xl"></i>
                 </button>
               </div>
             </div>
@@ -135,24 +138,23 @@ const change = () => {
         </div>
       </div>
     </div>
-    <!--<Footer/>-->
   </div>
 </template>
 <script>
-export default {
-  data() {
-    return {
-      rotateX: 0,
-      rotateY: 0,
-    };
-  },
-  methods: {
-    handleMouseMove(event) {
-      const { offsetX, offsetY } = event;
-      const { offsetWidth: width, offsetHeight: height } = this.$refs.box;
-      this.rotateX = (-(offsetY - height / 2) / (height / 2)) * 4.5;
-      this.rotateY = ((offsetX - width / 2) / (width / 2)) * 4.5;
+  export default {
+    data() {
+      return {
+        rotateX: 0,
+        rotateY: 0,
+      };
     },
-  },
-};
+    methods: {
+      handleMouseMove(event) {
+        const { offsetX, offsetY } = event;
+        const { offsetWidth: width, offsetHeight: height } = this.$refs.box;
+        this.rotateX = (-(offsetY - height / 2) / (height / 2)) * 4.5;
+        this.rotateY = ((offsetX - width / 2) / (width / 2)) * 4.5;
+      },
+    },
+  };
 </script>

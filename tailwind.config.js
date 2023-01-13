@@ -19,7 +19,16 @@ module.exports = {
       },
       width: {
         '98': '98%',
-      }
+      },
+      animation: {
+        'slide-in': 'slide-in 0.4s'
+      },
+      keyframes: {
+        'slide-in': {
+          'from': {'transform': 'translateX(-12%)'},
+          'to': {'transform': 'translateX(0%)'}
+        }
+      },
     },
   },
   plugins: [],

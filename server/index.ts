@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 mongoose
 	.set('strictQuery', false)
-	.connect(process.env.MONGODB_URL)
+	.connect(process.env.MONGODB_CONNECT)
 	.then(() => console.log('MongoDB bağlantısı kuruldu!'))
 	.catch((e) => console.log('MongoDB bağlantısı sırasında hata oluştu'));
 

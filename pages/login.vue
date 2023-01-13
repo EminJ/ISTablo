@@ -1,6 +1,5 @@
 <script setup>
   import { ref } from "vue";
-  definePageMeta({middleware: ["auth"]})
   let open = ref(true),name=ref(''),email=ref(''),password=ref(''),mail=ref(''),pass=ref(''),message=ref('')
   const show=(()=> open.value=!open.value)
   const register = (async ()=> {
@@ -11,6 +10,7 @@
       if(obj.status!=200) message.value=obj.message
       else {
         message.value=''
+        return navigateTo('/')
       }
     })
     .catch((err)=> console.log(err))
@@ -23,6 +23,7 @@
       if(obj.status!=200) message.value=obj.message
       else {
         message.value=''
+        return navigateTo('/')
       }
     })
     .catch((err)=> console.log(err))
@@ -37,7 +38,7 @@
             <div class="p-10 h-auto">
               <p v-show="open" class="font- text-5xl font-black text-white pb-10">ISTablo, Giriş Yap</p>
               <p v-show="!open" class="font- text-5xl font-black text-white pb-10">ISTablo, Kayıt Ol</p>
-            <p class=" font-extralight text-gray-400 pb-10 w-4/5">
+            <p class=" font-light text-gray-400 pb-10 w-4/5">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, quis quaerat amet ad saepe id earum? Quod, sint ducimus vero earum deleniti nesciunt aspernatur in enim fugiat, esse qui nam?
             </p>
             <div v-show="open">
