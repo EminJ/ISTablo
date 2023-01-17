@@ -20,6 +20,9 @@ module.exports = {
       width: {
         '98': '98%',
       },
+      height:{
+        '110': '26.5rem',
+      },
       animation: {
         'slide-in': 'slide-in 0.4s'
       },

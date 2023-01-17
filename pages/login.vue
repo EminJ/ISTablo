@@ -1,14 +1,23 @@
 <script setup>
   import { ref } from "vue";
+  import tr from "@/lang/tr-TR";
+  import en from "@/lang/en-EN";
+  const lang = ref()
+  const language=useCookie('language')
+  if(language.value=='TR') lang.value=tr
+  if(language.value=='EN') lang.value=en
+
   let open = ref(true),name=ref(''),email=ref(''),password=ref(''),mail=ref(''),pass=ref(''),message=ref('')
   const show=(()=> open.value=!open.value)
   const register = (async ()=> {
-    await fetch('/api/Auth/create', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{"name":"'+name.value+'","email":"'+email.value+'","password":"'+password.value+'"}'})
+    await fetch('http://localhost:1000/api/Auth/create', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{"name":"'+name.value+'","email":"'+email.value+'","password":"'+password.value+'"}'})
     .then(async (data)=> {
       const text = await data.text();
       const obj = JSON.parse(text);
       if(obj.status!=200) message.value=obj.message
       else {
+        const users = useCookie('connect.sid')
+        users.value=obj.message
         message.value=''
         return navigateTo('/')
       }
@@ -16,12 +25,14 @@
     .catch((err)=> console.log(err))
   })
   const login = (async ()=> {
-    await fetch('/api/Auth/login', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{"email":"'+mail.value+'","password":"'+pass.value+'"}'})
+    await fetch('http://localhost:1000/api/Auth/login', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{"email":"'+mail.value+'","password":"'+pass.value+'"}'})
     .then(async (data)=> {
       const text = await data.text();
       const obj = JSON.parse(text);
       if(obj.status!=200) message.value=obj.message
       else {
+        const users = useCookie('connect.sid')
+        users.value=obj.message
         message.value=''
         return navigateTo('/')
       }
@@ -36,23 +47,23 @@
         <div class="w-1/2 h-full flex justify-center items-start">
           <div class="w-4/5 h-full block mx-5 rounded-lg p-4 bg-gray-primary shadow-lg shadow-black">
             <div class="p-10 h-auto">
-              <p v-show="open" class="font- text-5xl font-black text-white pb-10">ISTablo, Giriş Yap</p>
-              <p v-show="!open" class="font- text-5xl font-black text-white pb-10">ISTablo, Kayıt Ol</p>
+              <p v-show="open" class="font- text-5xl font-black text-white pb-10">{{ lang.grsypt }}</p>
+              <p v-show="!open" class="font- text-5xl font-black text-white pb-10">{{ lang.kytol }}</p>
             <p class=" font-light text-gray-400 pb-10 w-4/5">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, quis quaerat amet ad saepe id earum? Quod, sint ducimus vero earum deleniti nesciunt aspernatur in enim fugiat, esse qui nam?
+              {{ lang.grsmtn }}
             </p>
             <div v-show="open">
-              <input type="text" v-model="mail" placeholder="E-Posta Adresi Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
-              <input type="password" v-model="pass" placeholder="Şifre Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2"/><br>
-              <button @click="login" class="w-32 py-2 px-3 bg-slate-600 rounded-sm transition-all hover:bg-gray-800 my-5">Giriş Yap</button>
-              <span class="mx-5">Hesabın Yok mu? <a @click="show" href="/" onclick="return false" class="text-orange-main font-bold">Kayıt Ol</a></span>
+              <input type="text" v-model="mail" :placeholder="lang.epgrs" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
+              <input type="password" v-model="pass" :placeholder="lang.sfrgs" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2"/><br>
+              <button @click="login" class="w-32 py-2 px-3 bg-slate-600 rounded-sm transition-all hover:bg-gray-800 my-5">{{ lang.grsypbtn }}</button>
+              <span class="mx-5">{{ lang.hsbnykm }} <a @click="show" href="/" onclick="return false" class="text-orange-main font-bold">{{ lang.kytolbtn }}</a></span>
             </div>
             <div v-show="!open">
-              <input type="text" v-model="name" placeholder="Ad Soyad Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
-              <input type="text" v-model="email" placeholder="E-Posta Adresi Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
-              <input type="password" v-model="password" placeholder="Şifre Girişi" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2"/><br>
-              <button @click="register" class="w-32 py-2 px-3 bg-slate-600 rounded-sm transition-all hover:bg-gray-800 my-5">Kayıt Ol</button>
-              <span class="mx-5">Hesabın Var mı? <a @click="show" href="/" onclick="return false"  class="text-orange-main font-bold">Giriş Yap</a></span>
+              <input type="text" v-model="name" :placeholder="lang.adsgrs" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
+              <input type="text" v-model="email" :placeholder="lang.epgrs" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2 mr-5 mb-5"/>
+              <input type="password" v-model="password" :placeholder="lang.sfrgs" class="w-96 py-2 px-4 rounded-full border-b-4 border-transparent focus:outline-none focus:border-orange-main text-black-main my-2"/><br>
+              <button @click="register" class="w-32 py-2 px-3 bg-slate-600 rounded-sm transition-all hover:bg-gray-800 my-5">{{ lang.kytolbtn }}</button>
+              <span class="mx-5">{{ lang.hsbnvm }} <a @click="show" href="/" onclick="return false"  class="text-orange-main font-bold">{{ lang.grsypbtn }}</a></span>
               </div>
             </div>
             <div v-show="message!=''" class="w-96 overflow-hidden h-12 bg-red-500 rounded-md ml-10 flex items-center p-2">

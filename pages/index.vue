@@ -1,5 +1,13 @@
 <script setup>
+import { ref } from "vue";
+import tr from "@/lang/tr-TR";
+import en from "@/lang/en-EN";
+const lang = ref()
+const language=useCookie('language')
+if(language.value=='TR') lang.value=tr
+if(language.value=='EN') lang.value=en
 let arr = ref(0),slideright=ref('');
+
 let primepics = ref([
   {
     resim:
@@ -43,6 +51,7 @@ let primepics = ref([
       "Tablonun merkezinde, denizin altında gömülmüş ve dağılmış bir şehir görülüyor. Şehir, eski zamanlarda yaşamış insanlar tarafından kurulmuş olmalı ve zamanla denizin suları tarafından yutulmuş. Şehir, antik yapılarının yanı sıra, eski sokakları ve meydanları ile de görülebilen bir yerdir. Şehrin çevresinde, mavi renkli bir deniz ve beyaz kumlar görülüyor. Belki de bu şehir, bir felaket sonucu yok olmuş ve zamanla denizin suları tarafından tamamen yutulmuştur. Hava güneşli ve sıcak görünüyor ve denizin dalgaları, şehir üzerinde hafifçe sallanıyor.",
   },
 ]);
+
 const change = () => {
   slideright.value='animate-slide-in z-0 transition-opacity w-98 h-full rounded-sm shadow-lg shadow-black bg-cover'
   if (primepics.value[arr.value + 1]) arr.value++;
@@ -56,24 +65,29 @@ slideright.value='z-0 transition-opacity w-98 h-full rounded-sm shadow-lg shadow
     <div class="w-full h-screen bg-gray-background block text-white">
       <div class="w-full h-full pt-32 flex flex-row flex-nowrap">
         <div v-if="primepics[arr - 1]" class="w-1/3 h-full text-white-main p-10">
-          <h1 class="text-4xl font-bold my-7">
+          <h1 class="text-2xl xl:text-4xl font-bold my-7">
             {{ primepics[arr - 1].baslik }}
           </h1>
           <hr />
-          <p class="text-3xl font-light mt-6 mb-7">
+          <p class="text-1xl xl:text-3xl font-light mt-6 mb-7">
             {{ primepics[arr - 1].aciklama }}
           </p>
-          <p class="text-xl font-light italic">
+          <button
+            class="w-auto transition-all h-auto bg-black-main text-white-main rounded-lg font-bold inline-block p-2 px-6 xl:p-4 xl:px-8 text-sm my-3 border border-white-main hover:border-gray-background hover:text-gray-background hover:bg-white-main mr-5">
+            {{ lang.dhfb }}
+          </button>
+          <p class="m-2">{{ lang.tblnozt }}</p>
+          <p class="text-lg xl:text-xl font-light italic">
             “ {{ primepics[arr - 1].detay }} ”
           </p>
           <p class="my-16">
-            <button href="/"
+            <button
               class="w-auto transition-all h-auto bg-orange-main text-white-main font-bold inline-block p-2 px-8 rounded-sm hover:bg-black-main mr-5">
-              Satın Al
+              {{ lang.stnalbtn }}
             </button>
-            <button href="/"
+            <button
               class="w-auto transition-all h-auto bg-slate-500 text-white-main font-bold inline-block p-2 px-8 rounded-sm hover:bg-black-main">
-              Sepete Ekle
+              {{ lang.sptekl }}
             </button>
           </p>
         </div>
@@ -87,20 +101,20 @@ slideright.value='z-0 transition-opacity w-98 h-full rounded-sm shadow-lg shadow
           </p>
           <button
             class="w-auto transition-all h-auto bg-black-main text-white-main rounded-lg font-bold inline-block p-2 px-6 xl:p-4 xl:px-8 text-sm my-3 border border-white-main hover:border-gray-background hover:text-gray-background hover:bg-white-main mr-5">
-            Daha Fazla Bilgi
+            {{ lang.dhfb }}
           </button>
-          <p class="m-2">Tablonun Özeti</p>
+          <p class="m-2">{{ lang.tblnozt }}</p>
           <p class="text-lg xl:text-xl font-light italic">
             “ {{ primepics[primepics.length - 1].detay }} ”
           </p>
           <p class="my-16">
             <button
               class="w-auto transition-all h-auto bg-orange-main text-white-main font-bold inline-block p-2 px-8 rounded-sm hover:bg-black-main mr-5">
-              Satın Al
+              {{ lang.stnalbtn }}
             </button>
             <button
               class="w-auto transition-all h-auto bg-slate-500 text-white-main font-bold inline-block p-2 px-8 rounded-sm hover:bg-black-main">
-              Sepete Ekle
+              {{ lang.sptekl }}
             </button>
           </p>
         </div>
