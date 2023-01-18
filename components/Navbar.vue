@@ -21,7 +21,7 @@ const prime_lang=ref([])
 const language = useCookie('language')
 const currency = useCookie('currency')
 
-function update() {
+async function update() {
   if(!language.value) language.value='TR'
   if(!currency.value) currency.value='TL'
   if(currency.value=='TL') prime_curr.value='₺$€'
@@ -37,6 +37,7 @@ function update() {
   } 
   if(useCookie('connect.sid').value) inlog.value=true
   else inlog.value=false
+
 }
 
 function changelan(lang){
@@ -54,13 +55,13 @@ update()
 
 <template>
   <div>
-    <div class="w-full h-32 flex flex-nowrap justify-between items-center px-12 bg-black-main fixed z-10">
+    <div class="z-20 w-full h-32 flex flex-nowrap justify-between items-center px-12 bg-black-main fixed border-b-4 border-orange-main">
       <NuxtLink to="/" class="text-orange-main hover:text-orange-400">
         <h1 class="font-black text-4xl font-sans"><span class="text-white">IS</span><span class="text-3xl transition-all">Tablo</span></h1>
       </NuxtLink>
       <ul class="flex flex-row flex-nowrap text-white-main font-bold items-center">
         <li class="mx-2"><NuxtLink to="/" class="text-white-main hover:text-orange-main">{{lang.mnmenu}}</NuxtLink></li>
-        <li class="mx-2"><NuxtLink to="/items" class="text-white-main hover:text-orange-main">{{ lang.urnl }}</NuxtLink></li>
+        <li class="mx-2"><NuxtLink to="/urunler" class="text-white-main hover:text-orange-main">{{ lang.urnl }}</NuxtLink></li>
         <li class="mx-2"><NuxtLink to="/" class="text-white-main hover:text-orange-main">{{ lang.ilts }}</NuxtLink></li>
         <li class="mx-2"><NuxtLink to="/" class="text-white-main hover:text-orange-main">{{ lang.sptm }}</NuxtLink></li>
         <li class="mx-2 border-l border-white-main pl-5" @mouseleave="isOpenT = false">
@@ -76,9 +77,21 @@ update()
             <a href="/" onclick="return false" class="text-gray-main my-2 hover:text-orange-main" @click="changelan(prime_lang[1])">{{prime_lang[1]}}</a>
           </div>
         </li>
-        <li class="ml-7 mr-2" v-if="inlog"><NuxtLink to="/users" class="text-white-main pb-1 transition-all hover:text-orange-main">{{lang.hsbm}}</NuxtLink></li>
-        <li class="ml-7 mr-2" v-if="!inlog"><NuxtLink to="/login" class="text-white-main pb-1 transition-all hover:text-orange-main">{{lang.grsyp}}</NuxtLink></li>
+        <li class="ml-7 mr-2" v-if="inlog"><NuxtLink to="/hesabim" class="text-white-main pb-1 transition-all hover:text-orange-main">{{lang.hsbm}}</NuxtLink></li>
+        <li class="ml-7 mr-2" v-if="!inlog"><NuxtLink to="/giris" class="text-white-main pb-1 transition-all hover:text-orange-main">{{lang.grsyp}}</NuxtLink></li>
       </ul>
-    </div>
+    </div> 
   </div>
 </template>
+
+<style>
+.shadow-make{
+  box-shadow:
+  2.8px 2.8px 2.2px rgba(0, 0, 0, 0.042),
+  6.7px 6.7px 5.3px rgba(0, 0, 0, 0.061),
+  12.5px 12.5px 10px rgba(0, 0, 0, 0.075),
+  22.3px 22.3px 17.9px rgba(0, 0, 0, 0.089),
+  41.8px 41.8px 33.4px rgba(0, 0, 0, 0.108),
+  100px 100px 80px rgba(0, 0, 0, 0.15);
+}
+</style>

@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import tr from "@/lang/tr-TR";
 import en from "@/lang/en-EN";
+const urlbase = 'http://localhost:1000'
 const lang = ref()
 const language=useCookie('language')
 if(language.value=='TR') lang.value=tr

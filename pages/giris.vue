@@ -2,6 +2,7 @@
   import { ref } from "vue";
   import tr from "@/lang/tr-TR";
   import en from "@/lang/en-EN";
+  const urlbase = 'http://localhost:1000'
   const lang = ref()
   const language=useCookie('language')
   if(language.value=='TR') lang.value=tr
@@ -10,7 +11,7 @@
   let open = ref(true),name=ref(''),email=ref(''),password=ref(''),mail=ref(''),pass=ref(''),message=ref('')
   const show=(()=> open.value=!open.value)
   const register = (async ()=> {
-    await fetch('http://localhost:1000/api/Auth/create', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{"name":"'+name.value+'","email":"'+email.value+'","password":"'+password.value+'"}'})
+    await fetch(urlbase+'/api/Auth/create', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{"name":"'+name.value+'","email":"'+email.value+'","password":"'+password.value+'"}'})
     .then(async (data)=> {
       const text = await data.text();
       const obj = JSON.parse(text);
@@ -25,7 +26,7 @@
     .catch((err)=> console.log(err))
   })
   const login = (async ()=> {
-    await fetch('http://localhost:1000/api/Auth/login', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{"email":"'+mail.value+'","password":"'+pass.value+'"}'})
+    await fetch(urlbase+'/api/Auth/login', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{"email":"'+mail.value+'","password":"'+pass.value+'"}'})
     .then(async (data)=> {
       const text = await data.text();
       const obj = JSON.parse(text);
@@ -73,6 +74,7 @@
           </div>
         </div>
         <div class="w-1/2 flex justify-center items-center">
+          <!--Doldurulabilir// RESİM VEYA SİTE İÇİ İÇERİK İLE-->
         </div>
       </div>
     </div>
