@@ -32,7 +32,7 @@ function changearea(num){
       <div class="w-full h-full pt-32 flex flex-row flex-nowrap">
         <div class="w-3/5 h-full"></div>
         <div class="w-2/5 h-full bg-black-main shadow-gray-900 shadow-sm hover:shadow-lg hover:shadow-gray-900 transition-all">
-          <p class="font-serif text-6xl text-orange-main m-10 w-96">{{ lang.klncadt }}</p>
+          <p class="font-serif text-6xl text-orange-main m-10 w-auto">{{ lang.klncadt }}</p>
           <p class="italic text-sm text-white-main mx-10">
             {{ lang.klnayrt }}
           </p>

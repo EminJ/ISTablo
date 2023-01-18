@@ -9,7 +9,7 @@ if(currency.value=='EURO') curr.value=3
 const { data, pending, error, refresh } = await useFetch('http://hasanadiguzel.com.tr/api/kurgetir')
 const veri=data._rawValue.TCMB_AnlikKurBilgileri
 function convertcurr(price){
-    if(curr.value == -1) return '₺'+price
+    if(curr.value == -1) return '₺'+price.toFixed(2);
     if(curr.value == 0) return '$'+(price/veri[curr.value].ForexSelling).toFixed(2);
     if(curr.value == 3) return '€'+(price/veri[curr.value].ForexSelling).toFixed(2);
 }
@@ -50,7 +50,7 @@ function convertcurr(price){
                         </div>
                     </div>
                     <div class="w-full h-auto flex flex-nowrap my-5 justify-end items-center">
-                        <p class="text-xl font-serif">₺125.00</p>
+                        <p class="text-xl font-serif">{{convertcurr(125)}}</p>
                         <a href="/" onclick="return false" class="text-xl font-serif mx-6 border border-orange-main px-5 py-2 rounded hover:bg-orange-main hover:text-black-main transition-all">Sepete Ekle</a>
                     </div>
                 </div>

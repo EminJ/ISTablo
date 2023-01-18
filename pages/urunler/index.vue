@@ -8,7 +8,7 @@ if(currency.value=='EURO') curr.value=3
 const { data, pending, error, refresh } = await useFetch('http://hasanadiguzel.com.tr/api/kurgetir')
 const veri=data._rawValue.TCMB_AnlikKurBilgileri
 function convertcurr(price){
-    if(curr.value == -1) return '₺'+price
+    if(curr.value == -1) return '₺'+price.toFixed(2);
     if(curr.value == 0) return '$'+(price/veri[curr.value].ForexSelling).toFixed(2);
     if(curr.value == 3) return '€'+(price/veri[curr.value].ForexSelling).toFixed(2);
 }
@@ -37,8 +37,7 @@ function convertcurr(price){
                         <p class="font-light text-gray-600">Thomas Fotomas</p>
                     </div>
                     <div class="w-full h-8 flex justify-center items-center rounded-b-md">
-                        <p class="font-bold text-xs text-gray-400 w-20 overflow-hidden">From: {{convertcurr(125)}}</p>
-                        
+                        <p class="font-bold text-xs text-gray-400 w-auto overflow-hidden">Satış Fiyatı: {{convertcurr(125)}}</p>
                     </div>
                 </div>
             </div>
