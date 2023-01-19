@@ -1,13 +1,13 @@
 <script setup>
+  import NuxtLayout from '@/layout/default.vue'
   import { ref } from "vue";
   import tr from "@/lang/tr-TR";
   import en from "@/lang/en-EN";
   const urlbase = 'http://localhost:1000'
+  const cookie=useCookie('connect.sid')
   const lang = ref()
-  const language=useCookie('language')
-  if(language.value=='TR') lang.value=tr
-  if(language.value=='EN') lang.value=en
-
+  if(cookie.value.language=='TR') lang.value=tr
+  if(cookie.value.language=='EN') lang.value=en
   let open = ref(true),name=ref(''),email=ref(''),password=ref(''),mail=ref(''),pass=ref(''),message=ref('')
   const show=(()=> open.value=!open.value)
   const register = (async ()=> {
@@ -17,8 +17,8 @@
       const obj = JSON.parse(text);
       if(obj.status!=200) message.value=obj.message
       else {
-        const users = useCookie('connect.sid')
-        users.value=obj.message
+        const cookie= useCookie('connect.sid')
+        cookie.value.key=obj.message
         message.value=''
         return navigateTo('/')
       }
@@ -32,8 +32,8 @@
       const obj = JSON.parse(text);
       if(obj.status!=200) message.value=obj.message
       else {
-        const users = useCookie('connect.sid')
-        users.value=obj.message
+        const cookie= useCookie('connect.sid')
+        cookie.value={ key:obj.message, language:'TR', currency:'TL' }
         message.value=''
         return navigateTo('/')
       }
@@ -42,7 +42,7 @@
   })
 </script>
 <template>
-  <div>
+  <NuxtLayout>
     <div class="w-full h-screen bg-gray-background block text-white">
       <div class="w-full h-full pt-32 flex flex-row flex-nowrap">
         <div class="w-1/2 h-full flex justify-center items-start">
@@ -78,5 +78,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </NuxtLayout>
 </template>

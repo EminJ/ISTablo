@@ -1,10 +1,27 @@
 <script setup>
+import NuxtLayout from '@/layout/default.vue'
 import { ref } from "vue";
+import tr from "@/lang/tr-TR";
+import en from "@/lang/en-EN";
+
+const lang = ref()
+const cookie=useCookie('connect.sid')
+try {
+    if(cookie.value.language=='TR') lang.value=tr
+    if(cookie.value.language=='EN') lang.value=en
+} catch (error) {
+    lang.value=tr
+}
+
 const curr = ref()
-const currency=useCookie('currency')
-if(currency.value=='TL') curr.value=-1
-if(currency.value=='USD') curr.value=0
-if(currency.value=='EURO') curr.value=3
+try {
+    if(cookie.value.currency=='TL') curr.value=-1
+    if(cookie.value.currency=='USD') curr.value=0
+    if(cookie.value.currency=='EURO') curr.value=3
+} catch (error) {
+    curr.value=-1
+}
+
 const { data, pending, error, refresh } = await useFetch('http://hasanadiguzel.com.tr/api/kurgetir')
 const veri=data._rawValue.TCMB_AnlikKurBilgileri
 function convertcurr(price){
@@ -12,10 +29,17 @@ function convertcurr(price){
     if(curr.value == 0) return '$'+(price/veri[curr.value].ForexSelling).toFixed(2);
     if(curr.value == 3) return '€'+(price/veri[curr.value].ForexSelling).toFixed(2);
 }
+
+const favorite=((id) => {
+    if(!cookie.value.key){
+        // Bir bildirim
+        console.log('Hesap uyarısı !');
+    }
+})
 </script>
 
 <template>
-    <div>
+    <NuxtLayout>
         <div class="w-full h-screen bg-gray-background block text-white">
             <div class="w-full h-full pt-32">
                 <!-- FİLTRE SİSTEMİ İÇİN <div class="w-full h-auto mt-6">
@@ -26,12 +50,13 @@ function convertcurr(price){
                     <a href="/" onclick="return false" class="mx-2">En çok beğilenenler</a>
                 </div>-->
                 <div class="w-80 h-110 bg-black-main rounded-md mx-12 my-7 transition-all shadow-md hover:shadow-gray-900">
-                    <div class="w-full h-80 bg-orange-100 rounded-t-md" style="background: url('/images/items/Elegant-Flower-Head-Art.webp') no-repeat; background-size: contain;">
-                        </div>
+                    <div class="w-full h-80 bg-orange-100 rounded-t-md text-right" style="background: url('/images/items/Elegant-Flower-Head-Art.webp') no-repeat; background-size: contain;">
+                        <a href="/" onclick="return false" class="bx bx-heart text-black mr-2 text-xl inline"></a>
+                    </div>
                     <div class="w-full h-10 flex justify-center items-center text-white">
-                        <NuxtLink to="/urunler/id/4564">
+                        <router-link to="/urunler/id/4564">
                             <p class="transition-all hover:text-blue-700 font-bold text-2xl">Sun Sprayed</p>
-                        </NuxtLink>
+                        </router-link>
                     </div>
                     <div class="w-full h-8 flex justify-center items-center">
                         <p class="font-light text-gray-600">Thomas Fotomas</p>
@@ -42,5 +67,5 @@ function convertcurr(price){
                 </div>
             </div>
         </div>
-    </div>
+    </NuxtLayout>
 </template>

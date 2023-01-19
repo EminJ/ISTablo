@@ -1,33 +1,52 @@
 <script setup>
+import NuxtLayout from '@/layout/default.vue'
 import { ref } from "vue";
 import tr from "@/lang/tr-TR";
 import en from "@/lang/en-EN";
 const cookie=useCookie('connect.sid')
-if(!cookie.value) navigateTo('/')
 const urlbase = 'http://localhost:1000'
 const lang = ref()
-const language=useCookie('language')
-if(language.value=='TR') lang.value=tr
-if(language.value=='EN') lang.value=en
+if(cookie.value.language=='TR') lang.value=tr
+if(cookie.value.language=='EN') lang.value=en
+
+const exit = (()=>{
+  cookie.value.key = undefined;
+  cookie.value = JSON.parse(JSON.stringify(cookie.value));
+  navigateTo('/')
+})
+
 const showarea = ref(0)
 //Kontrol için token içine girilebilir, gerçekten değer var mı? Diye.
-const options = {
-  method: 'POST',
-  headers: {'Content-Type': 'application/json'},
-  body: '{"token":"'+useCookie('connect.sid').value+'"}'
-};
-const data = ref(400)
-data.value = await fetch(urlbase+'/api/auth/usertested',options)
-.then(async (data)=> {
-  let text = await data.text()
-  return JSON.parse(text).message.user})
+const data = ref()
+try {
+  const options = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: '{"token":"'+cookie.value.key+'"}'
+  };
+  data.value = await fetch(urlbase+'/api/auth/usertested',options)
+  .then(async (data)=> {
+    let text = await data.text()
+    return JSON.parse(text).message.user})
+  if(!data.value){
+    cookie.value=cookie.value.key=null
+    navigateTo('/giris')
+  } 
+} catch (error) {
+  cookie.value=cookie.value.key=null
+  navigateTo('/giris')
+}
 function changearea(num){
   showarea.value=num
+}
+if(!data.value.name){
+  cookie.value=cookie.value.key=null
+  navigateTo('/giris')
 }
 </script>
 
 <template>
-  <div>
+  <NuxtLayout>
     <div class="w-full h-screen bg-gray-background block text-white">
       <div class="w-full h-full pt-32 flex flex-row flex-nowrap">
         <div class="w-3/5 h-full"></div>
@@ -57,6 +76,10 @@ function changearea(num){
                   <a href="/" onclick="return false" @click="changearea(3)">
                     <li v-if="showarea==3" class="w-full my-2 px-6 py-4 bg-orange-main rounded-3xl text-black-main"><i class='bx bx-credit-card-front'></i> {{ lang.krblerm }}</li>
                     <li v-else class="w-full my-2 px-6 py-4 bg-gray-700 rounded-3xl text-white-main"><i class='bx bx-credit-card-front'></i> {{ lang.krblerm }}</li>
+                  </a>
+                  <a href="/" onclick="return false" @click="changearea(4)">
+                    <li v-if="showarea==4" class="w-full my-2 px-6 py-4 bg-orange-main rounded-3xl text-black-main"><i class='bx bx-exit'></i> Çıkış Yap </li>
+                    <li v-else class="w-full my-2 px-6 py-4 bg-gray-700 rounded-3xl text-white-main"><i class='bx bx-exit'></i> Çıkış Yap </li>
                   </a>
                 </ul>
               </div>
@@ -157,6 +180,14 @@ function changearea(num){
                     <a href="/" onclick="return false" class="mt-5 bg-green-700 hover:bg-green-600 transition-all inline-block px-5 py-2 rounded">Yeni Kart Ekle</a>
                     </div>
                   </div>
+                  <div v-show="showarea==4">
+                    <!--Çıkış Yap-->
+                    <h1 class="font-bold mb-4">Çıkış Yap</h1>
+                    Bu işlem için Emin misiniz ?
+                    <div class="flex flex-nowrap justify-between">
+                      <a href="/" onclick="return false" class="mt-5 bg-orange-400 hover:bg-orange-500 transition-all inline-block px-5 py-2 rounded" @click="exit()">Evet</a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -164,7 +195,7 @@ function changearea(num){
         </div>
       </div>
     </div>
-  </div>
+  </NuxtLayout>
 </template>
 
 <style>

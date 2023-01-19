@@ -1,12 +1,13 @@
 <script setup>
+import NuxtLayout from '@/layout/default.vue'
 import { ref } from "vue";
 import tr from "@/lang/tr-TR";
 import en from "@/lang/en-EN";
-const urlbase = 'http://localhost:1000'
+
+const cookie=useCookie('connect.sid')
 const lang = ref()
-const language=useCookie('language')
-if(language.value=='TR') lang.value=tr
-if(language.value=='EN') lang.value=en
+if(cookie.value.language=='TR') lang.value=tr
+if(cookie.value.language=='EN') lang.value=en
 let arr = ref(0),slideright=ref('');
 
 let primepics = ref([
@@ -62,7 +63,7 @@ slideright.value='z-0 transition-opacity w-98 h-full rounded-sm shadow-lg shadow
 </script>
 
 <template>
-  <div>
+  <NuxtLayout>
     <div class="w-full h-screen bg-gray-background block text-white">
       <div class="w-full h-full pt-32 flex flex-row flex-nowrap">
         <div v-if="primepics[arr - 1]" class="w-1/3 h-full text-white-main p-10">
@@ -153,7 +154,7 @@ slideright.value='z-0 transition-opacity w-98 h-full rounded-sm shadow-lg shadow
         </div>
       </div>
     </div>
-  </div>
+  </NuxtLayout>
 </template>
 <script>
   export default {

@@ -1,11 +1,19 @@
 <script setup>
+import NuxtLayout from '@/layout/default.vue'
 import { ref } from "vue";
+import tr from "@/lang/tr-TR";
+import en from "@/lang/en-EN";
+
+const cookie=useCookie('connect.sid')
+const lang = ref()
+if(cookie.value.language=='TR') lang.value=tr
+if(cookie.value.language=='EN') lang.value=en
+
 const curr = ref()
 const route = useRoute()
-const currency=useCookie('currency')
-if(currency.value=='TL') curr.value=-1
-if(currency.value=='USD') curr.value=0
-if(currency.value=='EURO') curr.value=3
+if(cookie.value.currency=='TL') curr.value=-1
+if(cookie.value.currency=='USD') curr.value=0
+if(cookie.value.currency=='EURO') curr.value=3
 const { data, pending, error, refresh } = await useFetch('http://hasanadiguzel.com.tr/api/kurgetir')
 const veri=data._rawValue.TCMB_AnlikKurBilgileri
 function convertcurr(price){
@@ -16,7 +24,7 @@ function convertcurr(price){
 </script>
 
 <template>
-    <div>
+    <NuxtLayout>
         <div class="w-full h-screen bg-gray-background block text-white">
             <div class="w-11/12 h-full pt-32 flex flex-row flex-nowrap m-auto">
                 <div class="w-1/2 h-full pt-5">
@@ -56,5 +64,5 @@ function convertcurr(price){
                 </div>
             </div>
         </div>
-    </div>
+    </NuxtLayout>
 </template>
