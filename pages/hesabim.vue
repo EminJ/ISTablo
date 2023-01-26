@@ -1,48 +1,77 @@
 <script setup>
-import NuxtLayout from '@/layout/default.vue'
-import { ref } from "vue";
-import tr from "@/lang/tr-TR";
-import en from "@/lang/en-EN";
-const cookie=useCookie('connect.sid')
-const urlbase = 'http://localhost:1000'
-const lang = ref()
-if(cookie.value.language=='TR') lang.value=tr
-if(cookie.value.language=='EN') lang.value=en
+  import NuxtLayout from '@/layout/default.vue'
 
-const exit = (()=>{
-  cookie.value.key = undefined;
-  cookie.value = JSON.parse(JSON.stringify(cookie.value));
-  navigateTo('/')
-})
+  import { ref } from "vue";
+  import tr from "@/lang/tr-TR";
+  import en from "@/lang/en-EN";
+  const cookie=useCookie('connect.sid')
+  const urlbase = 'http://localhost:1000'
+  try {
+    if(!cookie.value){
+      cookie.value={language:'TR',currency:'TL'}
+    }
+  } catch (error) {}
 
-const showarea = ref(0)
-//Kontrol için token içine girilebilir, gerçekten değer var mı? Diye.
-const data = ref()
-try {
-  const options = {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: '{"token":"'+cookie.value.key+'"}'
-  };
-  data.value = await fetch(urlbase+'/api/auth/usertested',options)
-  .then(async (data)=> {
-    let text = await data.text()
-    return JSON.parse(text).message.user})
-  if(!data.value){
+  const lang = ref()
+  try {
+      if(cookie.value.language=='TR') lang.value=tr
+      if(cookie.value.language=='EN') lang.value=en
+  } catch (error) {
+      lang.value=tr
+  }
+
+  const curr = ref()
+  try {
+      if(cookie.value.currency=='TL') curr.value=-1
+      if(cookie.value.currency=='USD') curr.value=0
+      if(cookie.value.currency=='EURO') curr.value=3
+  } catch (error) {
+      curr.value=-1
+  }
+
+  const { data, pending, error, refresh } = await useFetch('http://hasanadiguzel.com.tr/api/kurgetir')
+  const veri=data._rawValue.TCMB_AnlikKurBilgileri
+  function convertcurr(price){
+      if(curr.value == -1) return '₺'+price.toFixed(2);
+      if(curr.value == 0) return '$'+(price/veri[curr.value].ForexSelling).toFixed(2);
+      if(curr.value == 3) return '€'+(price/veri[curr.value].ForexSelling).toFixed(2);
+  }
+  //{{convertcurr(125)}}
+
+  const exit = (()=>{
+    cookie.value.key = undefined;
+    cookie.value = JSON.parse(JSON.stringify(cookie.value));
+    navigateTo('/')
+  })
+
+  const showarea = ref(0)
+  //Kontrol için token içine girilebilir, gerçekten değer var mı? Diye.
+  const req = ref()
+  try {
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: '{"token":"'+cookie.value.key+'"}'
+    };
+    req.value = await fetch(urlbase+'/api/auth/usertested',options)
+    .then(async (req)=> {
+      let text = await req.text()
+      return JSON.parse(text).message.user})
+    if(!req.value){
+      cookie.value=cookie.value.key=null
+      navigateTo('/giris')
+    } 
+  } catch (error) {
     cookie.value=cookie.value.key=null
     navigateTo('/giris')
-  } 
-} catch (error) {
-  cookie.value=cookie.value.key=null
-  navigateTo('/giris')
-}
-function changearea(num){
-  showarea.value=num
-}
-if(!data.value.name){
-  cookie.value=cookie.value.key=null
-  navigateTo('/giris')
-}
+  }
+  function changearea(num){
+    showarea.value=num
+  }
+  if(!req.value.name){
+    cookie.value=cookie.value.key=null
+    navigateTo('/giris')
+  }
 </script>
 
 <template>
@@ -91,16 +120,17 @@ if(!data.value.name){
                     <div class="flex flex-nowrap">
                       <div class="m-2">
                       <p class="text-gray-200">{{ lang.klncayad }}</p>
-                      <input type="text" class="w-full h-9 rounded-md bg-gray-500 focus:outline-none focus:bg-gray-400 px-1 text-gray-300 mt-1" :value="data.name" disabled>
+                      <input type="text" class="w-full h-9 rounded-md bg-gray-500 focus:outline-none focus:bg-gray-400 px-1 text-gray-300 mt-1" :value="req.name" disabled>
                     </div>
                     <div class="m-2">
                       <p class="text-gray-200">{{ lang.klncaysad }}</p>
-                      <input type="text" class="w-full h-9 rounded-md bg-gray-500 focus:outline-none focus:bg-gray-400 px-1 text-gray-300 mt-1" :value="data.name" disabled>
+                      <input type="text" class="w-full h-9 rounded-md bg-gray-500 focus:outline-none focus:bg-gray-400 px-1 text-gray-300 mt-1" :value="req.name" disabled>
                     </div>
                     </div>
                     <div class="m-2">
                       <p class="text-gray-200">{{ lang.klncayeml }}</p>
-                      <input type="text" class="w-9/12 h-9 rounded-md bg-gray-500 focus:outline-none focus:bg-gray-400 px-1 text-gray-300 mt-1" :value="data.email" disabled>
+                      <input type="text" class="w-9/12 h-9 rounded-md bg-gray-500 focus:outline-none focus:bg-gray-400 px-1 text-gray-300 mt-1" :value="req
+                      .email" disabled>
                     </div>
                     <div class="m-2">
                       <p class="text-gray-200">{{ lang.klncayphnt }}</p>

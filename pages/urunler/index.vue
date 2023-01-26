@@ -1,11 +1,18 @@
 <script setup>
 import NuxtLayout from '@/layout/default.vue'
+
 import { ref } from "vue";
 import tr from "@/lang/tr-TR";
 import en from "@/lang/en-EN";
+const cookie=useCookie('connect.sid')
+const urlbase = 'http://localhost:1000'
+try {
+  if(!cookie.value){
+    cookie.value={language:'TR',currency:'TL'}
+  }
+} catch (error) {}
 
 const lang = ref()
-const cookie=useCookie('connect.sid')
 try {
     if(cookie.value.language=='TR') lang.value=tr
     if(cookie.value.language=='EN') lang.value=en
@@ -29,6 +36,7 @@ function convertcurr(price){
     if(curr.value == 0) return '$'+(price/veri[curr.value].ForexSelling).toFixed(2);
     if(curr.value == 3) return '€'+(price/veri[curr.value].ForexSelling).toFixed(2);
 }
+//{{convertcurr(125)}}
 
 const favorite=((id) => {
     if(!cookie.value.key){

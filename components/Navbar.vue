@@ -81,7 +81,7 @@ update()
         <li class="mx-2"><NuxtLink to="/" class="text-white-main hover:text-orange-main">{{lang.mnmenu}}</NuxtLink></li>
         <li class="mx-2"><NuxtLink to="/urunler" class="text-white-main hover:text-orange-main">{{ lang.urnl }}</NuxtLink></li>
         <li class="mx-2"><NuxtLink to="/" class="text-white-main hover:text-orange-main">{{ lang.ilts }}</NuxtLink></li>
-        <li class="mx-2"><NuxtLink to="/" class="text-white-main hover:text-orange-main">{{ lang.sptm }}</NuxtLink></li>
+        <li class="mx-2"><NuxtLink to="/sepet" class="text-white-main hover:text-orange-main">{{ lang.sptm }}</NuxtLink></li>
         <li class="mx-2 border-l border-white-main pl-5" @mouseleave="isOpenT = false">
             <a href="javascript:window.location.href=window.location.href" class="text-white-main my-2 hover:text-orange-main" @mouseover="toggleT" @click="changecur(prime_curr[0])">{{prime_curr[0]}}</a>
           <div v-show="isOpenT" class="absolute w-3 h-auto" @mouseleave="toggleT">

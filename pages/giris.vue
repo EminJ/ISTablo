@@ -1,13 +1,43 @@
 <script setup>
   import NuxtLayout from '@/layout/default.vue'
+
   import { ref } from "vue";
   import tr from "@/lang/tr-TR";
   import en from "@/lang/en-EN";
-  const urlbase = 'http://localhost:1000'
   const cookie=useCookie('connect.sid')
+  const urlbase = 'http://localhost:1000'
+  try {
+    if(!cookie.value){
+      cookie.value={language:'TR',currency:'TL'}
+    }
+  } catch (error) {}
+  
   const lang = ref()
-  if(cookie.value.language=='TR') lang.value=tr
-  if(cookie.value.language=='EN') lang.value=en
+  try {
+      if(cookie.value.language=='TR') lang.value=tr
+      if(cookie.value.language=='EN') lang.value=en
+  } catch (error) {
+      lang.value=tr
+  }
+  
+  const curr = ref()
+  try {
+      if(cookie.value.currency=='TL') curr.value=-1
+      if(cookie.value.currency=='USD') curr.value=0
+      if(cookie.value.currency=='EURO') curr.value=3
+  } catch (error) {
+      curr.value=-1
+  }
+
+  const { data, pending, error, refresh } = await useFetch('http://hasanadiguzel.com.tr/api/kurgetir')
+  const veri=data._rawValue.TCMB_AnlikKurBilgileri
+  function convertcurr(price){
+      if(curr.value == -1) return '₺'+price.toFixed(2);
+      if(curr.value == 0) return '$'+(price/veri[curr.value].ForexSelling).toFixed(2);
+      if(curr.value == 3) return '€'+(price/veri[curr.value].ForexSelling).toFixed(2);
+  }
+  //{{convertcurr(125)}}
+  
   let open = ref(true),name=ref(''),email=ref(''),password=ref(''),mail=ref(''),pass=ref(''),message=ref('')
   const show=(()=> open.value=!open.value)
   const register = (async ()=> {
@@ -18,7 +48,8 @@
       if(obj.status!=200) message.value=obj.message
       else {
         const cookie= useCookie('connect.sid')
-        cookie.value.key=obj.message
+        cookie.value.key = obj.message;
+        cookie.value = JSON.parse(JSON.stringify(cookie.value));
         message.value=''
         return navigateTo('/')
       }
@@ -33,7 +64,8 @@
       if(obj.status!=200) message.value=obj.message
       else {
         const cookie= useCookie('connect.sid')
-        cookie.value={ key:obj.message, language:'TR', currency:'TL' }
+        cookie.value.key = obj.message;
+        cookie.value = JSON.parse(JSON.stringify(cookie.value));
         message.value=''
         return navigateTo('/')
       }
