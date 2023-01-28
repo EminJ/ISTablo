@@ -37,6 +37,25 @@
       if(curr.value == 3) return '€'+(price/veri[curr.value].ForexSelling).toFixed(2);
   }
   //{{convertcurr(125)}}
+
+  const req = ref()
+try {
+  const options = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: '{"token":"'+cookie.value.key+'"}'
+  };
+  req.value = await fetch(urlbase+'/api/auth/usertested',options)
+  .then(async (req)=> {
+    let text = await req.text()
+    return JSON.parse(text).message.user})
+  if(!req.value){
+    cookie.value=cookie.value.key=null
+  } 
+} catch (error) {
+  cookie.value=cookie.value.key=null
+}
+//req.value==null = giriş yapılmamış.
   
   let open = ref(true),name=ref(''),email=ref(''),password=ref(''),mail=ref(''),pass=ref(''),message=ref('')
   const show=(()=> open.value=!open.value)

@@ -37,6 +37,25 @@
       if(curr.value == 3) return '€'+(price/veri[curr.value].ForexSelling).toFixed(2);
   }
   //{{convertcurr(125)}}
+
+  const req = ref()
+try {
+  const options = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: '{"token":"'+cookie.value.key+'"}'
+  };
+  req.value = await fetch(urlbase+'/api/auth/usertested',options)
+  .then(async (req)=> {
+    let text = await req.text()
+    return JSON.parse(text).message.user})
+  if(!req.value){
+    cookie.value=cookie.value.key=null
+  } 
+} catch (error) {
+  cookie.value=cookie.value.key=null
+}
+//req.value==null = giriş yapılmamış.
   
 </script>
 
@@ -53,7 +72,7 @@
               <div class="w-auto h-full bg-slate-400"></div>
               <div class="flex flex-col">
                 <p class="w-full h-6 overflow-hidden text-black-main">Tablo Adı <span class="text-gray-primary text-xs overflow-hidden">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam exercitationem voluptatem dolor perspiciatis ducimus, voluptatibus nisi quibusdam corrupti tempore rerum vitae architecto et impedit eum, laudantium, labore fugit cum iste.</span></p>
-                <p class="text-xs text-gray-primary">Boyut/Ebat 100 x 70</p>
+                <p class="text-xs text-gray-primary">Boyut/Ebat 100 x 70, Tablo Rengi Siyah</p>
                 <p class="text-xs mt-1 text-gray-primary">Tahmini Kargo Teslim: 5 gün sonra</p>
               </div>
             </div>

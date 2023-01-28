@@ -38,6 +38,25 @@
   }
   //{{convertcurr(125)}}
 
+  const req = ref()
+try {
+  const options = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: '{"token":"'+cookie.value.key+'"}'
+  };
+  req.value = await fetch(urlbase+'/api/auth/usertested',options)
+  .then(async (req)=> {
+    let text = await req.text()
+    return JSON.parse(text).message.user})
+  if(!req.value){
+    cookie.value=cookie.value.key=null
+  } 
+} catch (error) {
+  cookie.value=cookie.value.key=null
+}
+//req.value==null = giriş yapılmamış.
+
   const exit = (()=>{
     cookie.value.key = undefined;
     cookie.value = JSON.parse(JSON.stringify(cookie.value));
@@ -45,26 +64,6 @@
   })
 
   const showarea = ref(0)
-  //Kontrol için token içine girilebilir, gerçekten değer var mı? Diye.
-  const req = ref()
-  try {
-    const options = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: '{"token":"'+cookie.value.key+'"}'
-    };
-    req.value = await fetch(urlbase+'/api/auth/usertested',options)
-    .then(async (req)=> {
-      let text = await req.text()
-      return JSON.parse(text).message.user})
-    if(!req.value){
-      cookie.value=cookie.value.key=null
-      navigateTo('/giris')
-    } 
-  } catch (error) {
-    cookie.value=cookie.value.key=null
-    navigateTo('/giris')
-  }
   function changearea(num){
     showarea.value=num
   }
