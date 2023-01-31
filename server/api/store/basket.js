@@ -3,16 +3,16 @@ const jwt = require('jsonwebtoken')
 const Users = require('../model/users')
 
 
-router.post('/add-to-cart/:id', async (req, res) => {
-    if(!req.body.token){
+router.post('/add-to-cart', async (req, res) => {
+    const {id,size,color,token}=req.body
+    if(!token || !id){
         return res.status(400).send(message('Token Bulunamadı!',400))
     }
     try {
         const decoded = jwt.verify(req.body.token, process.env.SECURTY_KEY);
         if(decoded){
-            const productId = req.params.id;
             const user = await Users.findById(decoded.user._id);
-            user.sepet.push(productId);
+            user.sepet.push({id,size,color});
             await user.save();
             return res.status(200).send(message(user,200))
         }
@@ -22,7 +22,8 @@ router.post('/add-to-cart/:id', async (req, res) => {
     }
 });
 
-router.delete('/remove-from-cart/:id', async (req, res) => {
+router.post('/remove-from-cart', async (req, res) => {
+    const {id,size,color,token}=req.body
     if(!req.body.token){
         return res.status(400).send(message('Token Bulunamadı!',400))
     }
@@ -30,7 +31,13 @@ router.delete('/remove-from-cart/:id', async (req, res) => {
         const decoded = jwt.verify(req.body.token, process.env.SECURTY_KEY);
         if(decoded){
             const user = await Users.findById(decoded.user._id);
-            const productIndex = user.sepet.indexOf(req.params.id);
+            const productIndex = []
+            for (let i = 0; i < user.sepet.length; i++) {
+                const element = user.sepet[i];
+                console.log(element.id);
+                console.log(element.id == id);
+                if(element.id!=id) productIndex.push(element)
+            }
             if (productIndex === -1) return res.status(400).send(message('Ürün Sepette Bulunamadı!',400))
             user.sepet.splice(productIndex, 1);
             await user.save();

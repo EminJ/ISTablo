@@ -1,5 +1,19 @@
 <script setup>
     import UrunOlustur from "@/components/itemcreate.vue";
+    const urlbase = 'http://localhost:1000'
+    const admincookie = useCookie('_admin')
+    const options = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: '{"token":"'+admincookie.value+'"}'
+    };
+    try {
+        fetch(urlbase+'/api/auth/usertested',options)
+        .then((req)=> {
+            console.log(admincookie.value);
+          if(req.status!=200) navigateTo('/admin/panel')
+        })
+    } catch (error) {}
 </script>
 
 <template>

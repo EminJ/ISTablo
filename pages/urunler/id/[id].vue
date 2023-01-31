@@ -50,10 +50,12 @@ try {
     let text = await req.text()
     return JSON.parse(text).message.user})
   if(!req.value){
-    cookie.value=cookie.value.key=null
+    cookie.value.key = undefined;
+    cookie.value = JSON.parse(JSON.stringify(cookie.value));
   } 
 } catch (error) {
-  cookie.value=cookie.value.key=null
+  cookie.value.key = undefined;
+    cookie.value = JSON.parse(JSON.stringify(cookie.value));
 }
 //req.value==null = giriş yapılmamış.
 
@@ -68,7 +70,8 @@ const primefcolor=ref(fcolor.value[0])
 
 const route = useRoute()
 const sptcount = ref()
-try {
+if(!req.value){
+    try {
     const storage = await localStorage.getItem('_basket')
     if(storage){
         for (let i = 0; i < storage.split(':').length; i++) {
@@ -80,11 +83,20 @@ try {
         }
     }
 } catch (error) {}
+}
+else{
+    for (let i = 0; i < req.value.sepet.length; i++) {
+        const element = req.value.sepet[i];
+        if(element==route.params.id){
+            if(!sptcount.value) sptcount.value=0
+            sptcount.value++
+        }
+    }
+}
 
 const sepetekle=((id)=>{
     if(!req.value){
         //ÜRÜN ÖZELLİKLERİDE TUTULACAK
-
         if(!localStorage.getItem('_basket')){
             if(!sptcount.value) sptcount.value=0
             sptcount.value++
@@ -94,6 +106,11 @@ const sepetekle=((id)=>{
         let prob=id+','+primefcolor.value+','+primesize.value
         localStorage.setItem('_basket',localStorage.getItem('_basket')+':'+prob)
         sptcount.value++
+    }
+    else{
+
+        //backend linki ile sepete ekleme methodu
+        //user ile sepet verisinden verileri sayarak sepet adeti sayılacak.
     }
 })
 

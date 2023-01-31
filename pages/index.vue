@@ -50,10 +50,12 @@ try {
     let text = await req.text()
     return JSON.parse(text).message.user})
   if(!req.value){
-    cookie.value=cookie.value.key=null
+    cookie.value.key = undefined;
+    cookie.value = JSON.parse(JSON.stringify(cookie.value));
   } 
 } catch (error) {
-  cookie.value=cookie.value.key=null
+  cookie.value.key = undefined;
+  cookie.value = JSON.parse(JSON.stringify(cookie.value));
 }
 //req.value==null = giriş yapılmamış.
 

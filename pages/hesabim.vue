@@ -50,13 +50,15 @@ try {
     let text = await req.text()
     return JSON.parse(text).message.user})
   if(!req.value){
-    cookie.value=cookie.value.key=null
+    cookie.value.key = undefined;
+    cookie.value = JSON.parse(JSON.stringify(cookie.value));
   } 
 } catch (error) {
-  cookie.value=cookie.value.key=null
+  cookie.value.key = undefined;
+  cookie.value = JSON.parse(JSON.stringify(cookie.value));
 }
 //req.value==null = giriş yapılmamış.
-
+  if(!req.value) navigateTo('/giris')
   const exit = (()=>{
     cookie.value.key = undefined;
     cookie.value = JSON.parse(JSON.stringify(cookie.value));
@@ -68,7 +70,8 @@ try {
     showarea.value=num
   }
   if(!req.value.name){
-    cookie.value=cookie.value.key=null
+    cookie.value.key = undefined;
+    cookie.value = JSON.parse(JSON.stringify(cookie.value));
     navigateTo('/giris')
   }
 </script>
