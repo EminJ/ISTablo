@@ -58,39 +58,48 @@ try {
     cookie.value = JSON.parse(JSON.stringify(cookie.value));
 }
 //req.value==null = giriş yapılmamış.
-  
+
+if(!req.value){
+  console.log('localstorage');
+}
+else{
+  console.log();
+}
+
 </script>
 
 <template>
   <NuxtLayout>
-    <div class="w-full h-screen bg-gray-background block text-white">
+    <div class="w-full h-auto bg-gray-background block text-white">
       <div class="w-full h-full pt-32 flex flex-row flex-nowrap justify-center">
         <div class="w-2/4 h-auto mt-5">
-          <!-- Sepet Ürün Elementi -->
-          <div class="w-full h-20 bg-gray-200 rounded my-1 flex flex-nowrap">
-            <!-- Sepet Yan 1. Kısım -->
-            <div class="w-3/4 h-20 flex flex-nowrap text-black-main items-center">
-              <img src="/images/items/Elegant-Flower-Head-Art.webp" class="h-full p-1 rounded-lg">
-              <div class="w-auto h-full bg-slate-400"></div>
-              <div class="flex flex-col">
-                <p class="w-full h-6 overflow-hidden text-black-main">Tablo Adı <span class="text-gray-primary text-xs overflow-hidden">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam exercitationem voluptatem dolor perspiciatis ducimus, voluptatibus nisi quibusdam corrupti tempore rerum vitae architecto et impedit eum, laudantium, labore fugit cum iste.</span></p>
-                <p class="text-xs text-gray-primary">Boyut/Ebat 100 x 70, Tablo Rengi Siyah</p>
-                <p class="text-xs mt-1 text-gray-primary">Tahmini Kargo Teslim: 5 gün sonra</p>
+          <div v-if="req" v-for="sepet in req.sepet">
+            <!-- Sepet Ürün Elementi -->
+            <div class="w-full h-20 bg-gray-200 rounded my-3 flex flex-nowrap">
+              <!-- Sepet Yan 1. Kısım -->
+              <div class="w-3/4 h-20 flex flex-nowrap text-black-main items-center">
+                <img src="/images/items/Elegant-Flower-Head-Art.webp" class="h-full p-1 rounded-lg">
+                <div class="w-auto h-full bg-slate-400"></div>
+                <div class="flex flex-col">
+                  <p class="w-full h-6 overflow-hidden text-black-main">Tablo Adı <span class="text-gray-primary text-xs overflow-hidden">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam exercitationem voluptatem dolor perspiciatis ducimus, voluptatibus nisi quibusdam corrupti tempore rerum vitae architecto et impedit eum, laudantium, labore fugit cum iste.</span></p>
+                  <p class="text-xs text-gray-primary">Boyut/Ebat {{sepet.size}}, Tablo Rengi {{sepet.color}}</p>
+                  <p class="text-xs mt-1 text-gray-primary">Tahmini Kargo Teslim: 5 gün sonra</p>
+                </div>
               </div>
-            </div>
-            <!-- Sepet Yan 2. Kısım -->
-            <div class="w-1/4 h-auto flex flex-nowrap items-center justify-between pr-5">
-              <div class="w-24 h-10 flex flex-nowrap border border-gray-300 rounded text-black-main justify-center items-center">
-                <div class="w-6 h-9 flex bg-slate-300 bg-opacity-50 text-gray-500 rounded-l justify-center items-center">-</div>
-                <div class="w-12 h-9 flex justify-center items-center text-black-main">1</div>
-                <div class="w-6 h-9 flex bg-slate-300 bg-opacity-50 text-black-main rounded-r justify-center items-center">+</div>
+              <!-- Sepet Yan 2. Kısım -->
+              <div class="w-1/4 h-auto flex flex-nowrap items-center justify-between pr-5">
+                <div class="w-24 h-10 flex flex-nowrap border border-gray-300 rounded text-black-main justify-center items-center">
+                  <div class="w-6 h-9 flex bg-slate-300 bg-opacity-50 text-gray-500 rounded-l justify-center items-center">-</div>
+                  <div class="w-12 h-9 flex justify-center items-center text-black-main">1</div>
+                  <div class="w-6 h-9 flex bg-slate-300 bg-opacity-50 text-black-main rounded-r justify-center items-center">+</div>
+                </div>
+                <p class="text-yellow-600">300,00 TL</p>
+                <p class="bx bx-trash text-black-main text-base"></p>
               </div>
-              <p class="text-yellow-600">300,00 TL</p>
-              <p class="bx bx-trash text-black-main text-base"></p>
             </div>
           </div>
           <hr class="my-5 border-gray-500">
-          <div class="w-full h-14 flex flex-nowrap justify-between items-center">
+          <div class="w-full h-14 mb-3 flex flex-nowrap justify-between items-center">
             <div class="flex flex-nowrap items-center">
               <div class="py-1 px-2 bg-yellow-700 text-gray-200 text-xs font-bold rounded-full mr-2">Kargo Toplam 19,99 TL</div>
               <!-- <div class="py-1 px-2 bg-yellow-700 text-gray-200 text-xs font-bold rounded-full mr-2"><del>Kargo Toplam 19,99 TL</del></div>-->

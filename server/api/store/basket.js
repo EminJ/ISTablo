@@ -31,12 +31,10 @@ router.post('/remove-from-cart', async (req, res) => {
         const decoded = jwt.verify(req.body.token, process.env.SECURTY_KEY);
         if(decoded){
             const user = await Users.findById(decoded.user._id);
-            const productIndex = []
+            let productIndex = -1
             for (let i = 0; i < user.sepet.length; i++) {
                 const element = user.sepet[i];
-                console.log(element.id);
-                console.log(element.id == id);
-                if(element.id!=id) productIndex.push(element)
+                if(element.id==id && element.size == size && element.color == color) productIndex=i
             }
             if (productIndex === -1) return res.status(400).send(message('Ürün Sepette Bulunamadı!',400))
             user.sepet.splice(productIndex, 1);

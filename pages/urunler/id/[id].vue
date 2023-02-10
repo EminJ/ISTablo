@@ -85,9 +85,10 @@ if(!req.value){
 } catch (error) {}
 }
 else{
+
     for (let i = 0; i < req.value.sepet.length; i++) {
         const element = req.value.sepet[i];
-        if(element==route.params.id){
+        if(element.id==route.params.id){
             if(!sptcount.value) sptcount.value=0
             sptcount.value++
         }
@@ -108,11 +109,22 @@ const sepetekle=((id)=>{
         sptcount.value++
     }
     else{
+        const options = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: '{"id":"'+id+'","size":"'+primesize.value+'","color":"'+primefcolor.value+'","token":"'+cookie.value.key+'"}'
+        };
 
-        //backend linki ile sepete ekleme methodu
-        //user ile sepet verisinden verileri sayarak sepet adeti sayılacak.
-    }
-})
+        fetch(urlbase+'/api/store/basket/add-to-cart', options)
+          .then(response => response.json())
+          .then(response => {
+            if(response.status==200) sptcount.value++
+          })
+          .catch(err => console.error(err));
+        }
+    })
 
 </script>
 
