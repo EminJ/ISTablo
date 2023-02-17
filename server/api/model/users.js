@@ -10,7 +10,8 @@ const UserSchema = new Schema ({
         kartbilgileri:{ type: Array},
         sepet:{ type: Array},
         favoriler:{ type: Array},
-        adres:{ type: Array}
+        adres:{ type: Array},
+        phone:{ type: String}
 },{
   timestamps: true,
 });

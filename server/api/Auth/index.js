@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const create = require('./create')
 const login = require('./login')
+const account = require('./account')
 const admin = require('./admin')
 const Users = require('../model/users')
 const jwt = require('jsonwebtoken')
@@ -24,6 +25,7 @@ router.post('/usertested',async (req,res)=>{
 router.use('/create',create)
 router.use('/login',login)
 router.use('/admin',admin)
+router.use('/account',account)
 
 function message(message,status) {return {send:'Istanbul Tablo',message:message,status:status}}
 

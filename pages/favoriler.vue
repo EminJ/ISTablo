@@ -69,13 +69,14 @@ const options = {
   body: '{"token":"'+cookie.value.key+'"}'
 };
 
-res.value = await fetch(urlbase+'/api/store/basket/favorite', options)
+if(req.value!=null){
+  res.value = await fetch(urlbase+'/api/store/basket/favorite', options)
   .then(response => response.json())
   .then(response => response.message)
   .catch(err => console.error(err));
+}
 
-
-  const removeitem = (async (id)=>{
+const removeitem = ((id)=>{
     if(req.value!=null){
       const options = {
       method: 'POST',
@@ -85,9 +86,10 @@ res.value = await fetch(urlbase+'/api/store/basket/favorite', options)
       body: '{"id":"'+id+'","token":"'+cookie.value.key+'"}'
     };
 
-    await fetch(urlbase+'/api/store/basket/delfavorite', options)
+    fetch(urlbase+'/api/store/basket/delfavorite', options)
       .then(response => response.json())
-      .then(response => {if(response.status==200){
+      .then(response => {
+        if(response.status==200){
         document.getElementById(id).style.display='none'}
       })
       .catch(err => console.error(err));

@@ -133,11 +133,11 @@ console.log(res.value);
               </div>
               <!-- Sepet Yan 2. Kısım -->
               <div class="w-1/4 h-auto flex flex-nowrap items-center justify-between pr-5">
-                <div class="w-24 h-10 flex flex-nowrap border border-gray-300 rounded text-black-main justify-center items-center">
+                <!-- <div class="w-24 h-10 flex flex-nowrap border border-gray-300 rounded text-black-main justify-center items-center">
                   <div class="w-6 h-9 flex bg-slate-300 bg-opacity-50 text-gray-500 rounded-l justify-center items-center">-</div>
                   <div class="w-12 h-9 flex justify-center items-center text-black-main">1</div>
                   <div class="w-6 h-9 flex bg-slate-300 bg-opacity-50 text-black-main rounded-r justify-center items-center">+</div>
-                </div>
+                </div>-->
                 <p class="text-yellow-600">{{convertcurr(sepet[0].item.price)}}</p>
                 <a href="/" onclick="return false" @click="removeitem(sepet,urun)" class="bx bx-trash text-black-main text-base"></a>
               </div>
@@ -149,7 +149,7 @@ console.log(res.value);
               <div v-show="toplam>=100" class="py-1 px-2 bg-yellow-700 text-gray-200 text-xs font-bold rounded-full mr-2"><del>Kargo Toplam {{ convertcurr(19) }}</del></div>
               <p class="text-yellow-500 font-bold">{{convertcurr(toplam)}}</p>
             </div>
-            <a href="/" onclick="return false" class="text-xl font-serif mx-6 border border-orange-main px-5 py-2 text-white-main rounded hover:bg-orange-main hover:text-black-main transition-all">Sepeti Onayla</a>
+            <a href="/sepetonay" class="text-xl font-serif mx-6 border border-orange-main px-5 py-2 text-white-main rounded hover:bg-orange-main hover:text-black-main transition-all">Sepeti Onayla</a>
           </div>
         </div>
       </div>

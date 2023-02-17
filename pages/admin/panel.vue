@@ -11,10 +11,9 @@
       body: '{"token":"'+admincookie.value+'"}'
     };
     try {
-        fetch(urlbase+'/api/auth/usertested',options)
-        .then((req)=> {
-          if(req.status==200) navigateTo('/admin/v1')
-        })
+        const data = await fetch(urlbase+'/api/auth/usertested',options)
+        .then((req)=> req.status)
+        if(data == 200) navigateTo('/admin/v1')
     } catch (error) {}
 
     const login=(()=>{
