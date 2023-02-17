@@ -3,6 +3,7 @@ const tr={
     urnl:"Ürünlerimiz",
     ilts:"İletişim",
     sptm:"Sepetim",
+    fvril:"Favoriler",
     hsbm:"Hesabım",
     grsyp:"Giriş Yap / Kayıt Ol",
     grsypt:"ISTablo, Giriş Yap",

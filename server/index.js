@@ -16,6 +16,10 @@ var corsOptions = {
   }
 app.use(cors(corsOptions))
 app.use(express.json());
+
+app.use(express.static('public')); 
+app.use('/images', express.static('images'));
+
 mongoose
 	.set('strictQuery', false)
 	.connect(process.env.MONGODB_CONNECT)
@@ -36,6 +40,10 @@ const upload = multer({storage})
 
 app.post('/uploads', upload.single('filename'), (req, res) => {
 	res.status(200).send({message:filename})
+})
+
+app.get('/images:id', (req, res) => {
+	res.status(200).send({message:'id'})
 })
 
 app.use('/api/auth',Auth)
