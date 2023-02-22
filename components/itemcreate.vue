@@ -38,7 +38,7 @@
           body: '{"token":"'+cookie.value+'","title":"'+title.value+'","explanation":"'+explanation.value+'","category":"'+tema.value+'","type":"'+category.value+'","images":"'+images.value+'","size":"'+sizebox.value+'","color":"'+colorbox.value+'","price":"'+pricebox.value+'"}'
         };
 
-        fetch('http://localhost:1000/api/store/frame/upload', options)
+        fetch(urlbase+'/api/store/frame/upload', options)
           .then(response => response.json())
           .then(response => alert.value={status:response.status,message:response.message})
           .catch(err => console.error(err));
@@ -59,6 +59,10 @@
           .then(response => images.value.push(response.message))
           .catch(err => console.error(err));
     }
+    const imagedel=((image)=> {
+        const index = images.value.indexOf(image);
+        if (index > -1) images.value.splice(index, 1);
+    })
     function chooseFiles() {
         document.getElementById("fileUpload").click()
     }
@@ -89,9 +93,11 @@
             </div>
             <div class="w-1/5 h-auto mr-4 flex content-start flex-wrap">
                 <input type="file" id="fileUpload" @change="handleFileSelection" hidden/>
+
                 <template v-for="images in images">
-                    <a href="/" onclick="return false"><div class="w-32 h-32 rounded bg-slate-300 flex justify-center items-center text-xl mx-2 mb-2 text-white bg-cover" :style="{ backgroundImage: 'url(' + urlbase+'/images/'+images + ')' }"></div></a>
+                    <a href="/" onclick="return false" @click="imagedel(images)"><div class="hover:bg-gray-500 hover:bg-opacity-40 transition-all w-32 h-32 rounded bg-slate-300 flex justify-center items-center text-xl mx-2 mb-2 text-white bg-cover" :style="{ backgroundImage: 'url(' + urlbase+'/images/'+images + ')' }"></div></a>
                 </template>
+
                 <a href="/" onclick="return false" @click="chooseFiles()"><div class="w-32 h-32 rounded bg-slate-300 flex justify-center items-center text-xl mx-2 mb-2 text-white">+</div></a>
             </div>
             <div class="w-1/5 h-auto mr-4 flex content-start flex-wrap">
