@@ -88,8 +88,41 @@ if(req.value!=null){
         }
 }
 
+if(!req.value){
+    try {
+        if(localStorage.getItem('_favorite')){
+        for (let i = 0; i < localStorage.getItem('_favorite').split(':').length; i++) {
+            const element = localStorage.getItem('_favorite').split(':')[i];
+            for (let j = 0; j < getdata.value.length; j++) {
+                const element2 = getdata.value[j];
+                if(element==element2.tabloid) document.getElementById(element).style.color='red'
+            }
+        }
+    }
+    } catch (error) {
+        
+    }
+}
+
 const favorite = ((id) => {
-    if (!req.value!=null) {
+    if(!req.value){
+        if(!localStorage.getItem('_favorite')){
+            localStorage.setItem('_favorite',id)
+            return document.getElementById(id).style.color='red'
+        }
+        let data=''
+        let input=false
+        
+        for (let i = 0; i < localStorage.getItem('_favorite').split(':').length; i++) {
+            const element = localStorage.getItem('_favorite').split(':')[i];
+            if(element==id) input=true
+            else data+=element+':'
+        }
+        localStorage.setItem('_favorite',data)
+        if(!input) document.getElementById(id).style.color='red'
+        if(input) document.getElementById(id).style.color='grey'
+    }
+    else {
         const options = {
         method: 'POST',
         headers: {
@@ -97,7 +130,8 @@ const favorite = ((id) => {
         },
         body: '{"id":"'+id+'","token":"'+cookie.value.key+'"}'
         };
-    
+    //Favori geri çekme işlemi backendde tamamla...
+    //Favori için ekran yenilendiğinde sayfada kırmızı kalması...
         fetch(urlbase + '/api/store/basket/addfavorite', options)
           .then(response => response.json())
           .then(response => {document.getElementById(id).style.color='red'})

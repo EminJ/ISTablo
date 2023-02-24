@@ -61,23 +61,37 @@ try {
 const res = ref()
 const urun=ref(0)
 
-const options = {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: '{"token":"'+cookie.value.key+'"}'
-};
-
-if(req.value!=null){
+if(req.value){
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: '{"token":"'+cookie.value.key+'"}'
+  };
   res.value = await fetch(urlbase+'/api/store/basket/favorite', options)
   .then(response => response.json())
   .then(response => response.message)
   .catch(err => console.error(err));
 }
+else{
+  const options = {
+    method: 'GET',
+    headers: {'Content-Type': 'application/json'},
+  };
+  for (let i = 0; i < localStorage.getItem('_favorite').split(':').length; i++) {
+    const element = localStorage.getItem('_favorite').split(':')[i];
+    
+  }
+  //burada kaldın.......
+  fetch(urlbase+'/api/store/frame/item/1009198238924193', options)
+    .then(response => response.json())
+    .then(response => console.log(response))
+    .catch(err => console.error(err));
+}
 
 const removeitem = ((id)=>{
-    if(req.value!=null){
+    if(req.value){
       const options = {
       method: 'POST',
       headers: {

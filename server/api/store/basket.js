@@ -3,6 +3,11 @@ const jwt = require('jsonwebtoken')
 const Users = require('../model/users')
 const Tablo = require('../model/tablo')
 
+router.post('/get-item'), async (req, res) => {
+    const item = await Tablo.findOne({tabloid:req.body.id});
+    return res.status(200).send(message("a",200))
+}
+
 router.post('/show', async (req, res) => {
     const {token}=req.body
     let urunler=[]

@@ -95,10 +95,10 @@
                 <input type="file" id="fileUpload" @change="handleFileSelection" hidden/>
 
                 <template v-for="images in images">
-                    <a href="/" onclick="return false" @click="imagedel(images)"><div class="hover:bg-gray-500 hover:bg-opacity-40 transition-all w-32 h-32 rounded bg-slate-300 flex justify-center items-center text-xl mx-2 mb-2 text-white bg-cover" :style="{ backgroundImage: 'url(' + urlbase+'/images/'+images + ')' }"></div></a>
+                    <a href="/" onclick="return false" class="bg-transparent transition-all hover:bg-red-500 rounded-lg" @click="imagedel(images)"><div class="hover:bg-gray-500 hover:bg-opacity-40 transition-all w-32 h-32 rounded mt-1 bg-slate-300 flex justify-center items-center text-xl mx-2 mb-2 text-white bg-cover" :style="{ backgroundImage: 'url(' + urlbase+'/images/'+images + ')' }"></div></a>
                 </template>
 
-                <a href="/" onclick="return false" @click="chooseFiles()"><div class="w-32 h-32 rounded bg-slate-300 flex justify-center items-center text-xl mx-2 mb-2 text-white">+</div></a>
+                <a href="/" onclick="return false" @click="chooseFiles()"><div class="w-32 h-32 rounded mt-1 bg-slate-300 flex justify-center items-center text-xl mx-2 mb-2 text-white">+</div></a>
             </div>
             <div class="w-1/5 h-auto mr-4 flex content-start flex-wrap">
                 <div class="w-full h-auto">
